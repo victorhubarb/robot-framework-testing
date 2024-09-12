@@ -30,7 +30,7 @@ Before executing the tests, it is necessary to run the website locally and confi
    ```
 2. Install the dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install robotframework
    ```
 
 ## Website Setup

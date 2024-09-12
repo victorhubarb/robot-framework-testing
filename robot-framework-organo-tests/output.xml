@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0.1 (Python 3.12.5 on darwin)" generated="2024-09-06T15:00:54.896088" rpa="false" schemaversion="5">
+<suite id="s1" name="Preenchimento Correto" source="/Users/victorbarbosa/Documents/dev/robot framework/organo/preenchimento_correto.robot">
+<test id="s1-t1" name="Verificar se é possível criar mais de um card se preenchermos os campos corretamente" line="28">
+<kw name="Dado que eu acesse o Organo" owner="setup_teardown" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2024-09-06T15:00:54.967492" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:3000/'.</msg>
+<arg>url=http://localhost:3000/</arg>
+<arg>browser=Chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2024-09-06T15:00:54.966524" elapsed="0.753829"/>
+</kw>
+<status status="PASS" start="2024-09-06T15:00:54.965865" elapsed="0.754808"/>
+</kw>
+<kw name="Dado que eu preencha os campos do formulário">
+<kw name="FakerLibrary.First Name">
+<msg time="2024-09-06T15:00:55.723503" level="FAIL">No keyword with name 'FakerLibrary.First Name' found.</msg>
+<var>${Nome}</var>
+<status status="FAIL" start="2024-09-06T15:00:55.723344" elapsed="0.001127">No keyword with name 'FakerLibrary.First Name' found.</status>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${CAMPO_NOME}</arg>
+<arg>${Nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2024-09-06T15:00:55.724862" elapsed="0.000188"/>
+</kw>
+<kw name="FakerLibrary.Job">
+<var>${Cargo}</var>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725162" elapsed="0.000041"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${CAMPO_CARGO}</arg>
+<arg>${Cargo}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725261" elapsed="0.000033"/>
+</kw>
+<kw name="FakerLibrary.Image Url">
+<var>${Imagem}</var>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725359" elapsed="0.000031"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${CAMPO_IMAGEM}</arg>
+<arg>${Imagem}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725441" elapsed="0.000030"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${CAMPO_TIME}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725521" elapsed="0.000033"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${OPCAO_PROGRAMACAO}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2024-09-06T15:00:55.725599" elapsed="0.000027"/>
+</kw>
+<status status="FAIL" start="2024-09-06T15:00:55.721376" elapsed="0.004329">No keyword with name 'FakerLibrary.First Name' found.</status>
+</kw>
+<kw name="E clique no botão criar card">
+<status status="NOT RUN" start="2024-09-06T15:00:55.726235" elapsed="0.000213"/>
+</kw>
+<kw name="Então identificar 3 cards no time esperado">
+<status status="NOT RUN" start="2024-09-06T15:00:55.726881" elapsed="0.000069"/>
+</kw>
+<kw name="Fechar o navegador" owner="setup_teardown" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2024-09-06T15:00:55.727987" elapsed="0.067675"/>
+</kw>
+<status status="PASS" start="2024-09-06T15:00:55.727412" elapsed="0.068367"/>
+</kw>
+<status status="FAIL" start="2024-09-06T15:00:54.965548" elapsed="0.830381">No keyword with name 'FakerLibrary.First Name' found.</status>
+</test>
+<status status="FAIL" start="2024-09-06T15:00:54.897435" elapsed="0.898908"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Preenchimento Correto">Preenchimento Correto</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2024-09-06T15:00:54.963939" level="ERROR">Error in file '/Users/victorbarbosa/Documents/dev/robot framework/organo/preenchimento_correto.robot' on line 3: Importing library 'FakerLibrary' failed: ModuleNotFoundError: No module named 'pkg_resources'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/FakerLibrary/__init__.py", line 1, in &lt;module&gt;
+    import pkg_resources
+PYTHONPATH:
+  /Users/victorbarbosa/.vscode/extensions/robocorp.robotframework-lsp-1.12.0/src/robotframework_debug_adapter
+  /Users/victorbarbosa/Documents/dev/robot framework/organo
+  /Users/victorbarbosa/.vscode/extensions/robocorp.robotframework-lsp-1.12.0/src
+  /Users/victorbarbosa/.vscode/extensions/robocorp.robotframework-lsp-1.12.0/src/robotframework_ls/vendored
+  /Library/Frameworks/Python.framework/Versions/3.12/lib/python312.zip
+  /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12
+  /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload
+  /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages</msg>
+</errors>
+</robot>

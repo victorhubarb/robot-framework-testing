@@ -1,62 +1,97 @@
-# Robot Framework Testing <a name="readme-top"></a>
-![Static Badge](https://img.shields.io/badge/status-completed-green?style=for-the-badge)
+# Robot Framework Testing 🤖
 
-## Introduction
-**Robot Framework Testing** is a project configured to perform automated tests using the **Robot Framework**. The repository is composed of two main folders:
-1. **robot-framework-organo-main**: Contains the website files that will be tested.
-2. **robot-framework-organo-tests**: Contains the tests that will be executed using the Robot Framework.
+![Status](https://img.shields.io/badge/status-completed-green?style=for-the-badge)
+![QA](https://img.shields.io/badge/Robot%20Framework-Automated%20Testing-red?style=for-the-badge)
 
-Before executing the tests, it is necessary to run the website locally and configure the correct address in the test configuration file.
+Automated UI tests written with Robot Framework using BDD-style keywords in Portuguese — testing the Organo React app with SeleniumLibrary, FakerLibrary for dynamic data, and FOR loops for multi-card scenarios.
 
-## Table of Contents
-- [Installation](#installation)
-- [Website Setup](#website-setup)
-- [Usage](#usage)
-- [Test Structure](#test-structure)
-- [Technologies](#technologies)
-- [Contributors](#contributors)
+---
 
-## Installation
+## Overview
 
-### Prerequisites
-- Python installed
-- Robot Framework installed
+This project applies Robot Framework to automate UI tests for the Organo web application. Tests follow a BDD (Behavior-Driven Development) structure with keywords written in Portuguese (`Dado que`, `Então`, `E`) — making test cases readable as plain language. FakerLibrary generates random names, job titles, and image URLs so tests never rely on hardcoded data. The suite covers happy paths (correct form submission, multiple cards, one card per team) and error paths (required field validation).
 
-### Steps to run
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/victorhubarb/robot-framework-testing.git
-   cd robot-framework-testing
-   ```
-2. Install the dependencies:
-   ```bash
-   pip install robotframework
-   ```
+---
 
-## Website Setup
-1. Navigate to the **robot-framework-organo-main** folder:
-   ```bash
-   cd robot-framework-organo-main
-   ```
-2. Run the website locally. Make sure it is accessible from a local address (e.g. `localhost:3000`).
-3. In the **robot-framework-organo-tests** directory, configure the localhost address being used in the test configuration file so that the Robot Framework knows where to test the website.
+## Architecture
 
-## Usage
-
-To run the tests:
-```bash
-robot -d results tests/
 ```
-This will execute the defined tests and store the results in the `results` folder.
+robot-framework-testing/
+├── robot-framework-organo-main/        # The React app under test (Organo v1)
+│   └── src/                            # React source — run locally before executing tests
+└── robot-framework-organo-tests/       # Test suite
+    ├── resources/
+    │   ├── main.robot                  # Imports — SeleniumLibrary + FakerLibrary
+    │   ├── pages/
+    │   │   └── cadastro.robot          # Page keywords — field locators + user actions
+    │   └── shared/
+    │       └── setup_teardown.robot    # Suite setup/teardown — open/close Chrome
+    └── testes/
+        ├── preenchimento_correto.robot     # Happy path test cases
+        └── preenchimento_incorreto.robot   # Error path — required field validation
+```
 
-## Test Structure
-- **UI Testing**: Verifies the user interface in different scenarios.
-- **API Testing**: Ensures that the APIs used by the application are working.
+### Test Cases
+
+**preenchimento_correto.robot:**
+- Verify that correctly filled form fields create a card in the expected team
+- Verify that more than one card can be created when fields are filled correctly
+- Verify that one card can be created for each available team
+
+**preenchimento_incorreto.robot:**
+- Verify that submitting without required fields shows validation error messages
+
+### Key Concepts Applied
+
+| Concept | How it shows up |
+|---|---|
+| **BDD keywords** | Test steps written as `Dado que`, `Então`, `E` — readable as plain language |
+| **Page Object pattern** | `cadastro.robot` centralizes all locators and actions for the form page |
+| **FakerLibrary** | `FakerLibrary.First Name`, `FakerLibrary.Job`, `FakerLibrary.Image Url` — no hardcoded test data |
+| **FOR loop** | Creates multiple cards and iterates through all 7 teams dynamically |
+| **SeleniumLibrary** | `Open Browser`, `Input Text`, `Click Element`, `Element Should Be Visible` |
+| **XPath locators** | Teams selected via `//option[contains(.,'Programação')]` — robust to text changes |
+| **Setup/Teardown** | Every test opens Chrome before and closes it after via `Test Setup`/`Test Teardown` |
+
+---
+
+## How to Run
+
+**Prerequisites:** Python · Robot Framework · SeleniumLibrary · FakerLibrary · ChromeDriver
+
+```bash
+git clone https://github.com/victorhubarb/robot-framework-testing.git
+cd robot-framework-testing
+
+# Install dependencies
+pip install robotframework
+pip install robotframework-seleniumlibrary
+pip install robotframework-faker
+
+# Start the React app locally (separate terminal)
+cd robot-framework-organo-main
+npm install && npm start
+
+# Run the tests (in a separate terminal)
+cd robot-framework-organo-tests
+robot -d results testes/
+```
+
+Results are saved as HTML and XML reports in the `results/` folder.
+
+---
 
 ## Technologies
-- **Robot Framework**
-- **Python**
 
-## Contributors
-- [Victor Barbosa](https://github.com/victorhubarb)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- **Robot Framework** — keyword-driven test automation
+- **SeleniumLibrary** — browser automation
+- **FakerLibrary** — dynamic test data generation
+- **Python** — required runtime
+- **React** (Organo v1) — the application under test
+
+---
+
+## Author
+
+**Victor Hugo Barbosa**
+[GitHub](https://github.com/victorhubarb) · [LinkedIn](https://www.linkedin.com/in/victorhbarbosa/)

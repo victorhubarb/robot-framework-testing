@@ -1,97 +1,60 @@
-# Robot Framework Testing 🤖
+# Robot Framework Testing
 
-![Status](https://img.shields.io/badge/status-completed-green?style=for-the-badge)
-![QA](https://img.shields.io/badge/Robot%20Framework-Automated%20Testing-red?style=for-the-badge)
+UI test automation with Robot Framework and SeleniumLibrary, written against Organo, a small React app where you register team members and see them as cards grouped by team. The app is included in the repo so the tests run against a local copy.
 
-Automated UI tests written with Robot Framework using BDD-style keywords in Portuguese — testing the Organo React app with SeleniumLibrary, FakerLibrary for dynamic data, and FOR loops for multi-card scenarios.
+The keywords are written in Portuguese in a Given/Then style (`Dado que`, `E`, `Então`), so a test case reads like a sentence.
 
----
+## What's tested
 
-## Overview
-
-This project applies Robot Framework to automate UI tests for the Organo web application. Tests follow a BDD (Behavior-Driven Development) structure with keywords written in Portuguese (`Dado que`, `Então`, `E`) — making test cases readable as plain language. FakerLibrary generates random names, job titles, and image URLs so tests never rely on hardcoded data. The suite covers happy paths (correct form submission, multiple cards, one card per team) and error paths (required field validation).
-
----
-
-## Architecture
-
-```
-robot-framework-testing/
-├── robot-framework-organo-main/        # The React app under test (Organo v1)
-│   └── src/                            # React source — run locally before executing tests
-└── robot-framework-organo-tests/       # Test suite
-    ├── resources/
-    │   ├── main.robot                  # Imports — SeleniumLibrary + FakerLibrary
-    │   ├── pages/
-    │   │   └── cadastro.robot          # Page keywords — field locators + user actions
-    │   └── shared/
-    │       └── setup_teardown.robot    # Suite setup/teardown — open/close Chrome
-    └── testes/
-        ├── preenchimento_correto.robot     # Happy path test cases
-        └── preenchimento_incorreto.robot   # Error path — required field validation
-```
-
-### Test Cases
-
-**preenchimento_correto.robot:**
-- Verify that correctly filled form fields create a card in the expected team
-- Verify that more than one card can be created when fields are filled correctly
-- Verify that one card can be created for each available team
-
-**preenchimento_incorreto.robot:**
-- Verify that submitting without required fields shows validation error messages
-
-### Key Concepts Applied
-
-| Concept | How it shows up |
+| Suite | Scenarios |
 |---|---|
-| **BDD keywords** | Test steps written as `Dado que`, `Então`, `E` — readable as plain language |
-| **Page Object pattern** | `cadastro.robot` centralizes all locators and actions for the form page |
-| **FakerLibrary** | `FakerLibrary.First Name`, `FakerLibrary.Job`, `FakerLibrary.Image Url` — no hardcoded test data |
-| **FOR loop** | Creates multiple cards and iterates through all 7 teams dynamically |
-| **SeleniumLibrary** | `Open Browser`, `Input Text`, `Click Element`, `Element Should Be Visible` |
-| **XPath locators** | Teams selected via `//option[contains(.,'Programação')]` — robust to text changes |
-| **Setup/Teardown** | Every test opens Chrome before and closes it after via `Test Setup`/`Test Teardown` |
+| `preenchimento_correto.robot` | A valid form creates a card in the chosen team; several cards can be created in a row; one card can be created for each of the 7 teams |
+| `preenchimento_incorreto.robot` | Submitting the empty form shows the required-field error for name, role and team |
 
----
+## How it's organized
 
-## How to Run
+```
+robot-framework-organo-main/    The React app under test
+robot-framework-organo-tests/
+├── resources/
+│   ├── main.robot              Libraries and resource imports
+│   ├── pages/cadastro.robot    Locators and keywords for the registration form
+│   └── shared/setup_teardown.robot   Open and close Chrome
+└── testes/                     The two suites above
+```
 
-**Prerequisites:** Python · Robot Framework · SeleniumLibrary · FakerLibrary · ChromeDriver
+- **Page-object style.** All locators and form actions live in `pages/cadastro.robot`. The suites only call keywords.
+- **Generated data.** FakerLibrary (pt_BR) produces the name, job title and image URL for each run, so no test depends on fixed values.
+- **Loops.** A `FOR ... IN ENUMERATE` loop walks the list of team locators to create one card per team.
+- **Setup and teardown.** Each test opens a fresh Chrome window and closes it afterwards.
+
+## Run it
+
+You need Python 3.8+, Node.js 18+ and Chrome. Selenium 4 downloads a matching driver by itself.
 
 ```bash
 git clone https://github.com/victorhubarb/robot-framework-testing.git
 cd robot-framework-testing
+pip install robotframework robotframework-seleniumlibrary robotframework-faker
 
-# Install dependencies
-pip install robotframework
-pip install robotframework-seleniumlibrary
-pip install robotframework-faker
-
-# Start the React app locally (separate terminal)
+# terminal 1: start the app on http://localhost:3000
 cd robot-framework-organo-main
 npm install && npm start
 
-# Run the tests (in a separate terminal)
+# terminal 2: run the tests
 cd robot-framework-organo-tests
 robot -d results testes/
 ```
 
-Results are saved as HTML and XML reports in the `results/` folder.
+Robot writes `report.html`, `log.html` and `output.xml` to `results/`.
+
+## Known gaps
+
+- The suites assert that a card appears, but not that it is under the right team or has the data that was typed.
+- Two keywords end with `Sleep 10s`. Explicit waits on the card count would be faster and less flaky.
+- The app URL is hardcoded as `http://localhost:3000`, and there is no CI job.
+- The incorrect-input suite covers only the all-fields-empty case.
 
 ---
 
-## Technologies
-
-- **Robot Framework** — keyword-driven test automation
-- **SeleniumLibrary** — browser automation
-- **FakerLibrary** — dynamic test data generation
-- **Python** — required runtime
-- **React** (Organo v1) — the application under test
-
----
-
-## Author
-
-**Victor Hugo Barbosa**
-[GitHub](https://github.com/victorhubarb) · [LinkedIn](https://www.linkedin.com/in/victorhbarbosa/)
+Victor Hugo Barbosa · [GitHub](https://github.com/victorhubarb) · [LinkedIn](https://www.linkedin.com/in/victorhbarbosa/)
